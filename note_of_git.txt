@@ -1,0 +1,77 @@
+git学习笔记
+
+一、安装（http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000）
+二、配置全局参数
+	git config --global user.name "<yourUserName>"
+	git config --global user.email "<yourEmail>"
+	
+三、创建版本库
+	1，创建一个空的版本库
+		1）在合适的位置创建一个空目录
+			mkdir <dirname>
+			cd <dirname>
+			pwd 
+		2) 将上述空目录<dirname>变成git可以管理的仓库
+			git init
+	2，把文件添加到版本库
+		1) 在<dirname>目录或其子目录下新建一个文本文件并输入文本内容，如readme.txt
+		2) 将上述文本文件添加到仓库
+			git add <filename>
+		3) 提交文件到仓库
+			git commit -m "wrote a readme file"
+			
+四、操作版本库：
+	1，修改版本库中文件
+	2，查看工作区状态： git status
+	3，查看同一项目修改前后的详细差异: git diff
+	4，提交修改：
+		git add <filename>
+		git commit -m "<description>"	
+	
+	注解：
+		要随时掌握工作区的状态，使用git status命令。
+		如果git status告诉你有文件被修改过，用git diff可以查看修改内容。
+
+	5，查看版本历史记录： 
+		git log
+		git log --pretty=oneline
+	6，切换到当前版本或以前的版本（从新版本到旧版本）：
+		git reset head           //切换到当前版本
+		git reset head^          //切换到当前版本的上一版本
+		git reset head^^         //切换到当前版本的上上一版本
+		git reset <commit id>    //根据commit id 切换到指定版本
+	7，切换到当前版本以后的版本（从旧版本到新版本）：
+		第一步：查看命令历史记录获取commit id
+			git reflog
+		第二步：根据commit id 切换到指定版本
+			git reset <commit id>
+			
+		注解：
+			HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。
+
+			穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
+		
+			要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
+==============================================================================================================================================
+
+小结:
+
+配置全局参数：
+	git config --global user.name "<yourUserName>"
+
+初始化Git仓库:
+	git init
+	
+
+添加文件到Git仓库：
+
+	第一步，添加：git add <filename> 可反复多次使用，添加多个文件；
+
+	第二步，提交：git commit -m "<description>"
+
+查看工作区状态：git status
+
+对比修改前后的差异：git diff
+
+==============================================================================================================================================
+	
