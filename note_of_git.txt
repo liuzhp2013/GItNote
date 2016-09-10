@@ -26,7 +26,7 @@ git学习笔记
 	3，查看同一项目修改前后的详细差异: git diff
 	4，提交修改：
 		git add <filename>
-		git commit -m "<discription>"	
+		git commit -m "<description>"	
 	
 	注解：
 		要随时掌握工作区的状态，使用git status命令。
@@ -52,6 +52,7 @@ git学习笔记
 			穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
 		
 			要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
+			
 	8，工作区、暂存区、版本库
 		工作区：即版本库所在的目录
 		暂存区：git管理的内存中的一块区域
@@ -60,11 +61,50 @@ git学习笔记
 	9，撤销修改：
 		1）撤销对工作区（即还未执行git add <file>）的修改:
 			git checkout -- <file>
-		2）撤销对暂存区的修改（即已经执行了git add <file>，但还没有执行git commit -m "discription"）
+		2）撤销对暂存区的修改（即已经执行了git add <file>，但还没有执行git commit -m "description"）
 			第一步：git reset HEAD <file>
 			第二步：git checkout -- <file>
 		3) 撤销对本地版本库的修改：直接回退到上一个版本（参考“6，切换到当前版本或以前的版本（从新版本到旧版本）：”）
 		
+	10，删除文件：
+		当工作区中的某一文件（前提是该文件已提交到版本库）被删除（手动删除或通过rm -rf <file>）后,该文件在版本库中的备份依然存在，
+		若想将该文件从版本库中移除，执行git rm <file>;
+		若想将该文件恢复到工作区，则执行git checkout -- <file>
+		
+五，远程仓库
+
+	1，在github上创建远程版本库
+		1) 注册一个github账号
+		2）生成SSH key（密钥对），
+		3）添加公钥（id_rsa.pub）到github账号
+		4）在github上创建远程库
+		5）关联本地库与远程库
+			git remote add origin <yourRemoteRepositoryAddress>
+		6) 将本地仓库推送到远程仓库；
+			git push [-u] origin master
+	
+			注意：第5）步关联远程仓库时，若出现如下异常fatal: remote origin already exists.表明当前本地库试图与两个或两个以上同名的远程仓库关联：
+				  解决办法：将已经建立的关联移除，再重新关联即可：
+							首先，清楚远程仓库 git remote rm origin
+							然后，重新关联：git remote add origin <yourRepositoryAddress>
+		7）将远程仓库克隆到本地：
+			git clone <yourRemoteRepositoryAddress>
+			
+六、分支：
+	1，创建分支：git branch <branchName>
+	2，切换分支：git checkout <branchName>
+	3，创建并切换分支：git checkout <branchName>
+	4，查看当前分支：git branch
+	5，在新分支上工作（如add、commit等）
+	6，切换回主分支（master），并将其他分支（如dev）合并到主分支上
+	7，删除分支: git branch -d <branchName>
+	
+	当git因冲突而无法自动合并时，必须首先手动解决冲突，然后重新add、commit，在进行merge
+	8，查看分支合并图：git log --graph
+	
+	分支策略：
+		1，主分支步充当具体的工作分支，只用于项目版本的merge
+		2，每个用户在自己单独的分支feature上工作，完了以后统一merge到公共的dev分支，最后发布新版本时在merge到master
 ==============================================================================================================================================
 
 小结:
@@ -86,5 +126,23 @@ git学习笔记
 
 对比修改前后的差异：git diff
 
+远程仓库相关操作小结：
+	本地仓库想远程仓库推送：
+		第一步：注册github账号：
+		第二步：生成ssh key 密钥对
+		第三步：将生成的公钥添加到github账号中
+		第四步：在github上创建远程仓库：如gitNote
+		第五步：关联本地仓库与远程仓库：git remote add origin <yourRemoteRepositoryAddress>
+		第六步：将本地仓库推送到远程仓库的主分支上：git push [-u] origin master
+	远程仓库向本地仓库克隆：
+		git clone <yourRemoteRepositoryAddress>
+
+在新分支上工作的流程小结：
+	第一步：创建新分支：git branch <branchName>
+	第二步：切换到工作分支上 git checkout <branchName>
+	第三部：在工作分支上进行add、commit等操作
+	第四步：工作分支上的任务完成后，切换回主分支 git checkout master
+	第五步：将工作分支合并到主分支 	git merge <branchName>
+	第六步：删除工作分支： git branch -d <branchName>
 ==============================================================================================================================================
 	
